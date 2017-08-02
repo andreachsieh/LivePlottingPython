@@ -11,11 +11,11 @@ client.invoke("echo", "server ready", (error, res) => {
   }
 })
 
-let formula = document.querySelector('#formula')
-let result = document.querySelector('#result')
+//let formula = document.querySelector('#formula')
+//let result = document.querySelector('#result')
 
 formula.addEventListener('input', () => {
-  client.invoke("calc", formula.value, (error, res) => {
+  client.invoke("testing", (error, res) => {
     if(error) {
       console.error(error)
     } else {
