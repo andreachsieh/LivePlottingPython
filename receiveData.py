@@ -6,12 +6,25 @@
 import time
 import zmq
 import matplotlib.pyplot as plt
+import numpy as np
+import pylab as p
 
 context = zmq.Context()
 socket = context.socket(zmq.REP)
 socket.bind("tcp://*:5555")
 
+#prepare empty array
 array = []
+x_array = []
+
+# set up plot
+plt.ion()
+plt.show()
+plt.plot(x_array,array)
+plt.axis([0,10,0,10])
+plt.draw()
+plt.pause(0.001)
+
 
 while True:
     #  Wait for next request from client
@@ -19,16 +32,22 @@ while True:
     print("Received request: %s" % message)
 
     #  Do some 'work'
-    time.sleep(1)
+    time.sleep(0.5)
 
     #Convert data back to int
     data = [int(message)]
 
     #Append new data
     array.extend(data)
-	#clears the figure
-    #plt.clf()
-    plt.plot(array, 'ro')
-    plt.show()
+
+    #match length
+    x_array = np.linspace(0,len(array)-1, len(array))
+
+    plt.plot(x_array,array)
+    plt.draw()
+    plt.pause(0.001)
+
+    plt.autoscale(True)
+
 
     socket.send_string("Data received and plotted")
